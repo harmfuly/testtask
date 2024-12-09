@@ -1,0 +1,46 @@
+.first_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 650px;
+    background-image: url('/assets/bg_b1.png');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: #fff;
+    
+    &__title {
+        width: 380px;
+        height: 324px;
+        h1 {
+            font-size: 40px;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 21px;
+            line-height: 40px;
+        }
+        p {
+            margin: 0;
+            line-height: 26px;
+            font-weight: 300;
+        }
+    }
+    
+    &__button {
+        margin-top: 32px;
+        width: 100px;
+        height: 34px;
+        background-color: #F4E041;
+        border: none;
+        color: #000;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 80px;
+        transition: background-color 0.3s ease;
+        font-family: 'Nunito', sans-serif;
+    }
+    
+    &__button:hover {
+        background-color: #e6da83;
+    }
+}
