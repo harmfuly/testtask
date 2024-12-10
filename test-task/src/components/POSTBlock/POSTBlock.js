@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import './POSTBlock.scss';
 
 const POSTBlock = () => {
+
+  const [positions, setPositions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect( () => {
+    const fetchPositions = async () => {
+      setLoading(true);
+
+      try {
+        const responce = await fetch ('https://frontend-test-assignment-api.abz.agency/api/v1/positions');
+        const data = await responce.json();
+
+        if(data.success) {
+          setPositions(data.positions);
+        }
+      } catch (error) {
+        console.error('Error fetching positions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPositions();
+  }, []);
+
   return (
       <div className="POSTBlock">
         <div className="POSTBlock_container">
@@ -30,22 +55,16 @@ const POSTBlock = () => {
           </small>
           <p className="POSTBlock_label">Select your position</p>
           <div className="POSTBlock_radio-group">
-            <label className="POSTBlock_radio">
-              <input type="radio" name="position" value="frontend" />
-              Frontend developer
-            </label>
-            <label className="POSTBlock_radio">
-              <input type="radio" name="position" value="backend" />
-              Backend developer
-            </label>
-            <label className="POSTBlock_radio">
-              <input type="radio" name="position" value="designer" />
-              Designer
-            </label>
-            <label className="POSTBlock_radio">
-              <input type="radio" name="position" value="qa" />
-              QA
-            </label>
+            {loading ? (
+              <p>Loading positions...</p>
+            ) : (
+              positions.map((position) => (
+                <label key={position.id} className="POSTBlock_radio">
+                  <input type="radio" name="position" value={position.name} />
+                  {position.name}
+                </label>
+              ))
+            )}
           </div>
           <div className="POSTBlock_upload">
             <button className="POSTBlock_upload-btn">Upload</button>
