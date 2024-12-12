@@ -1,13 +1,12 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './POSTBlock.scss';
+import { FormInput } from './FormInput';
+import { FileUpload } from './FileUpload';
+import { RadioGroup } from './RadioGroup';
+import { Button } from './Button';
+import { validateForm } from '../../utils/validation';
 
-const POSTBlock = () => {
-
-  const [positions, setPositions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [submitLoading, setSubmitLoading] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
+export function POSTBlock() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,38 +14,38 @@ const POSTBlock = () => {
     position: '',
     photo: null,
   });
-
+  
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [positions, setPositions] = useState([]);
   const [token, setToken] = useState('');
 
-  const fetchToken = async () => {
-    try {
-      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token');
-      const data = await response.json();
-      if (data.success) {
-        setToken(data.token);
-      } else {
-        console.error('Failed to fetch token:', data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching token:', error);
-    }
-  };
-
-  useEffect( () => {
-    const fetchPositions = async () => {
-      setLoading(true);
-
+  useEffect(() => {
+    const fetchToken = async () => {
       try {
-        const responce = await fetch ('https://frontend-test-assignment-api.abz.agency/api/v1/positions');
-        const data = await responce.json();
+        const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token');
+        const data = await response.json();
+        if (data.success) {
+          setToken(data.token);
+        } else {
+          console.error('Failed to fetch token:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching token:', error);
+      }
+    };
 
-        if(data.success) {
+    const fetchPositions = async () => {
+      try {
+        const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions');
+        const data = await response.json();
+        if (data.success) {
           setPositions(data.positions);
+        } else {
+          console.error('Failed to fetch positions:', data.message);
         }
       } catch (error) {
         console.error('Error fetching positions:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -54,178 +53,127 @@ const POSTBlock = () => {
     fetchPositions();
   }, []);
 
-
-  const validateForm = () => {
-    const newErrors = {};
-  
-    if (!formData.name || formData.name.length < 2 || formData.name.length > 60) {
-      newErrors.name = 'Name must be between 2 and 60 characters.';
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email || !emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
-    }
-    const phoneRegex = /^\+380\d{9}$/;
-    if (!formData.phone || !phoneRegex.test(formData.phone)) {
-      newErrors.phone = 'Phone number must start with +380 and have 9 digits.';
-    }
-    if (!formData.position) {
-      newErrors.position = 'Please select a position.';
-    }
-    if (!formData.photo) {
-      newErrors.photo = 'Please upload a photo.';
-    } else if (formData.photo.size > 5 * 1024 * 1024) {
-      newErrors.photo = 'Photo size must not exceed 5MB.';
-    }
-  
-    setErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
-  };
-
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value, files } = e.target;
-  
-    setFormData((prevFormData) => {
-      const updatedData = {
-        ...prevFormData,
-        [name]: name === 'photo' ? files[0] : value,
-      };
-      validateForm(updatedData);
-      return updatedData;
+    const newValue = files ? files[0] : value;
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: newValue
+    }));
+
+    const newErrors = validateForm({
+      ...formData,
+      [name]: newValue
     });
-  };
+    setErrors(newErrors);
+  }, [formData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
 
-    if (!validateForm()) return;
+    if (Object.keys(newErrors).length === 0) {
+      setIsSubmitting(true);
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('position_id', positions.find((pos) => pos.name === formData.position)?.id || '');
+      formDataToSend.append('photo', formData.photo);
 
-    setSubmitLoading(true);
-
-    const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('phone', formData.phone);
-    formDataToSend.append('position_id', positions.find((pos) => pos.name === formData.position)?.id || '');
-    formDataToSend.append('photo', formData.photo);
-
-    try {
-      const response = await fetch(
-        'https://frontend-test-assignment-api.abz.agency/api/v1/users',
-        {
-          method: 'POST',
-          headers: {
-            Token: token,
-          },
-          body: formDataToSend,
+      try {
+        const response = await fetch(
+          'https://frontend-test-assignment-api.abz.agency/api/v1/users',
+          {
+            method: 'POST',
+            headers: {
+              Token: token,
+            },
+            body: formDataToSend,
+          }
+        );
+        const data = await response.json();
+        if (data.success) {
+          alert('User registered successfully!');
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            position: '',
+            photo: null,
+          });
+          setErrors({});
+        } else {
+          alert(data.message || 'Registration failed.');
         }
-      );
-      const data = await response.json();
-      if (data.success) {
-        alert('User registered successfully!');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          position: '',
-          photo: null,
-        });
-        setErrors({});
-      } else {
-        alert(data.message || 'Registration failed.');
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      } finally {
+        setIsSubmitting(false);
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setSubmitLoading(false);
     }
   };
 
   return (
     <div className="POSTBlock">
       <div className="POSTBlock_container">
-        <h1 className="POSTBlock_title">Working with POST request</h1>
-        <form className="POSTBlock_form" onSubmit={handleSubmit}>
-        <div className="POSTBlock_field">
-    <input
-      type="text"
-      name="name"
-      placeholder="Your name"
-      className="POSTBlock_input"
-      value={formData.name}
-      onChange={handleInputChange}
-    />
-    {errors.name && <small className="error">{errors.name}</small>}
-  </div>
+      <form onSubmit={handleSubmit} className="max-w-[380px] mx-auto">
+        <h1 className="text-4xl font-normal text-center mb-12 w-full">Working with POST request</h1>
 
-  <div className="POSTBlock_field">
-    <input
-      type="email"
-      name="email"
-      placeholder="Email"
-      className="POSTBlock_input"
-      value={formData.email}
-      onChange={handleInputChange}
-    />
-    {errors.email && <small className="error">{errors.email}</small>}
-  </div>
+        <FormInput
+          name="name"
+          label="Your name"
+          value={formData.name}
+          onChange={handleInputChange}
+          error={errors.name}
+        />
 
-  <div className="POSTBlock_field">
-    <input
-      type="tel"
-      name="phone"
-      placeholder="Phone"
-      className="POSTBlock_input"
-      value={formData.phone}
-      onChange={handleInputChange}
-    />
-    {errors.phone && <small className="error">{errors.phone}</small>}
-    <small className="POSTBlock_input-example">+38 (XXX) XXX - XX - XX</small>
-  </div>
+        <FormInput
+          name="email"
+          type="email"
+          label="Email"
+          value={formData.email}
+          onChange={handleInputChange}
+          error={errors.email}
+        />
 
-          <p className="POSTBlock_label">Select your position</p>
-          <div className="POSTBlock_radio-group">
-            {loading ? (
-              <p>Loading positions...</p>
-            ) : (
-              positions.map((position) => (
-                <label key={position.id} className="POSTBlock_radio">
-                  <input
-                    type="radio"
-                    name="position"
-                    value={position.name}
-                    onChange={handleInputChange}
-                  />
-                  {position.name}
-                </label>
-              ))
-            )}
-            {errors.position && <small className="error">{errors.position}</small>}
-          </div>
+        <FormInput
+          name="phone"
+          type="tel"
+          label="Phone"
+          value={formData.phone}
+          onChange={handleInputChange}
+          error={errors.phone}
+          helperText="+38 (XXX) XXX - XX - XX"
+        />
 
-          <div className="POSTBlock_upload">
-            <label className="POSTBlock_upload-btn">
-              Upload
-              <input type="file" name="photo" onChange={handleInputChange} accept="image/jpeg" />
-            </label>
-            <span className="POSTBlock_upload-text">
-              {formData.photo ? formData.photo.name : 'Upload your photo'}
-            </span>
-            {errors.photo && <small className="error">{errors.photo}</small>}
-          </div>
+        <RadioGroup
+          label="Select your position"
+          name="position"
+          options={positions}
+          value={formData.position}
+          onChange={handleInputChange}
+          error={errors.position}
+        />
 
-          <button
-            type="submit"
-            className="POSTBlock_submit-btn"
-            disabled={!isFormValid || submitLoading}
-          >
-            {submitLoading ? 'Submitting...' : 'Sign up'}
-          </button>
+        <FileUpload
+          name="photo"
+          onChange={handleInputChange}
+          value={formData.photo}
+          error={errors.photo}
+        />
 
-        </form>
+        <Button
+          type="submit"
+          disabled={Object.keys(errors).length > 0 || isSubmitting}
+        >
+          {isSubmitting ? 'Signing up...' : 'Sign up'}
+        </Button>
+      </form>
       </div>
     </div>
   );
-};
-
-export default POSTBlock;
+}
