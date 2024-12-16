@@ -166,7 +166,7 @@ export function POSTBlock() {
       </div>
     ) : (
       <>
-        <h1 className="text-4xl font-normal text-center mb-12 w-full">
+        <h1 className="POSTBlock_title">
           Working with POST request
         </h1>
         <form onSubmit={handleSubmit} className="max-w-[380px] mx-auto">

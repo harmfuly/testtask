@@ -2,7 +2,7 @@ import React from 'react';
 
 export function RadioGroup({ label, name, options, value, onChange, error }) {
   return (
-    <div className="mt-[43px] flex flex-col items-start">
+    <div className="mt-[36px] flex flex-col items-start">
       <p className="text-base mb-3">{label}</p>
       <div className="flex flex-col gap-3">
         {options.map((option) => (

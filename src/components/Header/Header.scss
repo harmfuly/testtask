@@ -1,9 +1,14 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 13px 60px;
-    background-color: #fff;
+  padding: 17px 0;
+  background-color: #fff;
+
+    &_container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1170px;
+      align-items: center;
+      margin: 0 auto;
+    }
     
     &_logo {
       width: 104px;
@@ -31,11 +36,15 @@
       background-color: #FFE302;
   }
 
+  @media (max-width: 1024px) {
+    padding: 13px 60px;
+  }
+  
   @media (max-width: 768px) {
     padding: 13px 32px;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 390px) {
     padding: 13px 16px;
   }
 

@@ -8,8 +8,8 @@ import { POSTBlock } from './components/POSTBlock/POSTBlock';
 const App = () => {
   return (
     <div className="App">
-      <div className="container">
         <Header />
+      <div className="container">
         <FirstBlock />
         <div id='users'>
           <GETBlock />

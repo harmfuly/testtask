@@ -50,18 +50,16 @@
     }
 
     @media (max-width: 768px) {
-        .first_block_title {
-            padding: 89px 194px;
-        }
+        height: 500px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 390px) {
             height: 500px;
 
             .first_block_title {
-                padding: 4px 0 70px 0; 
+                padding: 0 0 70px 0; 
                 width: 328px;
-                height: 389px;
+                height: 418px;
             }
     }
 

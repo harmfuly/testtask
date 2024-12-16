@@ -15,7 +15,7 @@ export function FormInput({
   const showFloatingLabel = isFocused || value;
 
   return (
-    <div className="relative mb-8">
+    <div className="relative mb-[46px]">
       <div className="relative">
         <input
           id={name}

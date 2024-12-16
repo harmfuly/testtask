@@ -12,7 +12,7 @@
     &_title {
         font-weight: 400;
         font-size: 40px;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
         color: #000;
         line-height: 40px;
     }
@@ -39,19 +39,19 @@
         }
 
         &_image {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
         }
 
         &_title {
-            margin: 15px 0;
+            margin: 20px 0 22px 0;
             font-weight: 400;
             font-size: 16px;
             color: #000;
             text-align: center;
-            line-height: 1.4;
+            line-height: 26px;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -59,14 +59,14 @@
         &_position {
             font-size: 16px;
             color: #000;
-            margin: 0;
+            margin-bottom: 1px;
         }
 
         &_email,
         &_phone {
             font-size: 16px;
             color: #000;
-            margin: 0;
+            margin-bottom: 1px;
             overflow-wrap: anywhere;
         }
     }
@@ -89,6 +89,14 @@
         }
     }
 
+    @media (max-width: 1024px) {
+        &_card-container {
+            gap: 29px;
+            width: 904px;
+            margin: 0 auto;
+        }
+    }
+
     @media (max-width: 768px) {
         &_card-container {
             gap: 16px;
@@ -97,7 +105,7 @@
         }
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 390px) {
         &_container {
             max-width: 328px;
         }
@@ -108,6 +116,11 @@
 
         &_card-container {
             gap: 20px;
+            width: 328px;
+        }
+
+        &_button {
+            margin-top: 56px;
         }
     }
 }

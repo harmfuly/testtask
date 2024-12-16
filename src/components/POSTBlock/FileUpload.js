@@ -3,7 +3,7 @@ import { classNames } from '../../utils/classNames';
 
 export function FileUpload({ name, value, onChange, error }) {
   return (
-    <div className="mt-[47px] mb-8 flex flex-col items-start w-full">
+    <div className="mt-[47px] mb-[50px] flex flex-col items-start w-full">
       <div className={classNames(
         'flex items-center w-full',
         'border rounded-[4px]',
