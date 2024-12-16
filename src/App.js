@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import Header from './components/Header/Header';
 import './App.css';
+import Loader from './components/Loader/Loader';
 
 const FirstBlock = React.lazy(() => import('./components/FirstBlock/FirstBlock'));
 const GETBlock = React.lazy(() => import('./components/GETBlock/GETBlock'));
@@ -11,16 +12,16 @@ const App = () => {
     <div className="App">
       <Header />
       <div className="container">
-        <Suspense fallback={<div>Loading FirstBlock...</div>}>
+        <Suspense fallback={<Loader />}>
           <FirstBlock />
         </Suspense>
         <div id="users">
-          <Suspense fallback={<div>Loading GETBlock...</div>}>
+          <Suspense fallback={<Loader />}>
             <GETBlock />
           </Suspense>
         </div>
         <div id="signup">
-          <Suspense fallback={<div>Loading POSTBlock...</div>}>
+          <Suspense fallback={<Loader />}>
             <POSTBlock />
           </Suspense>
         </div>

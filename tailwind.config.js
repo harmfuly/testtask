@@ -1,7 +1,11 @@
-/** @type {import('tailwindcss').Config} */
-export const content = ["./src/**/*.{html,js}"];
+export const content = [
+  "./src/**/*.{html,js,jsx,ts,tsx}",
+];
 export const theme = {
-  extend: {},
+  extend: {
+    fontFamily: {
+      nunito: ['Nunito', 'sans-serif']
+    },
+  },
 };
 export const plugins = [];
-

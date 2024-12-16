@@ -34,10 +34,6 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         overflow: hidden;
 
-        &:hover {
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
-
         &_image {
             width: 70px;
             height: 70px;
