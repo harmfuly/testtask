@@ -158,68 +158,71 @@ export function POSTBlock() {
 
   return (
     <div className="POSTBlock">
-      <div className="POSTBlock_container">
-      {isSuccess ? (
-          <div className="success-message">
-            <p className='success-message_text'>{message}</p>
-            <img src={successImage} alt="Success" className="success-image" />
-          </div>
-        ) : (
-      <form onSubmit={handleSubmit} className="max-w-[380px] mx-auto">
-        <h1 className="text-4xl font-normal text-center mb-12 w-full">Working with POST request</h1>
-
-        <FormInput
-          name="name"
-          label="Your name"
-          value={formData.name}
-          onChange={handleInputChange}
-          error={touched.name && errors.name}
-        />
-
-        <FormInput
-          name="email"
-          type="email"
-          label="Email"
-          value={formData.email}
-          onChange={handleInputChange}
-          error={touched.email && errors.email}
-        />
-
-        <FormInput
-          name="phone"
-          type="tel"
-          label="Phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          error={touched.phone && errors.phone}
-          helperText="+38 (XXX) XXX - XX - XX"
-        />
-
-        <RadioGroup
-          label="Select your position"
-          name="position"
-          options={positions}
-          value={formData.position}
-          onChange={handleInputChange}
-          error={touched.position && errors.position}
-        />
-
-        <FileUpload
-          name="photo"
-          onChange={handleInputChange}
-          value={formData.photo}
-          error={touched.photo && errors.photo}
-        />
-
-        <Button
-          type="submit"
-          disabled={Object.keys(errors).length > 0 || isSubmitting || !isFormValid}
-        >
-          {isSubmitting ? 'Signing up...' : 'Sign up'}
-        </Button>
-      </form>
-        )}
+  <div className="POSTBlock_container">
+    {isSuccess ? (
+      <div className="success-message">
+        <p className="success-message_text">{message}</p>
+        <img src={successImage} alt="Success" className="success-image" />
       </div>
-    </div>
+    ) : (
+      <>
+        <h1 className="text-4xl font-normal text-center mb-12 w-full">
+          Working with POST request
+        </h1>
+        <form onSubmit={handleSubmit} className="max-w-[380px] mx-auto">
+          <FormInput
+            name="name"
+            label="Your name"
+            value={formData.name}
+            onChange={handleInputChange}
+            error={touched.name && errors.name}
+          />
+
+          <FormInput
+            name="email"
+            type="email"
+            label="Email"
+            value={formData.email}
+            onChange={handleInputChange}
+            error={touched.email && errors.email}
+          />
+
+          <FormInput
+            name="phone"
+            type="tel"
+            label="Phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            error={touched.phone && errors.phone}
+            helperText="+38 (XXX) XXX - XX - XX"
+          />
+
+          <RadioGroup
+            label="Select your position"
+            name="position"
+            options={positions}
+            value={formData.position}
+            onChange={handleInputChange}
+            error={touched.position && errors.position}
+          />
+
+          <FileUpload
+            name="photo"
+            onChange={handleInputChange}
+            value={formData.photo}
+            error={touched.photo && errors.photo}
+          />
+
+          <Button
+            type="submit"
+            disabled={Object.keys(errors).length > 0 || isSubmitting || !isFormValid}
+          >
+            {isSubmitting ? 'Signing up...' : 'Sign up'}
+          </Button>
+        </form>
+      </>
+    )}
+  </div>
+</div>
   );
 }

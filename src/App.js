@@ -8,10 +8,16 @@ import { POSTBlock } from './components/POSTBlock/POSTBlock';
 const App = () => {
   return (
     <div className="App">
-      <Header />
-      <FirstBlock />
-      <GETBlock />
-      <POSTBlock />
+      <div className="container">
+        <Header />
+        <FirstBlock />
+        <div id='users'>
+          <GETBlock />
+        </div>
+        <div id='signup'>
+          <POSTBlock />
+        </div>
+      </div>
     </div>
   );
 };

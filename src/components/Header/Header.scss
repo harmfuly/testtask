@@ -5,11 +5,11 @@
     padding: 13px 60px;
     background-color: #fff;
     
-    &__logo {
+    &_logo {
       width: 104px;
     }
     
-    &__button {
+    &_button {
       margin-left: 10px;
       width: 100px;
       height: 34px;
@@ -20,13 +20,28 @@
       border-radius: 80px;
       font-family: 'Nunito', sans-serif;
       transition: background-color 0.3s ease;
+      text-align: center;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
     }
 
-    &__button:hover {
+    &_button:hover {
       background-color: #FFE302;
   }
 
+  @media (max-width: 768px) {
+    padding: 13px 32px;
   }
+
+  @media (max-width: 360px) {
+    padding: 13px 16px;
+  }
+
+  }
+
+
   
   
   

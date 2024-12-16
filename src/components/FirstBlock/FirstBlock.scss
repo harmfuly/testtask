@@ -9,7 +9,7 @@
     text-align: center;
     color: #fff;
     
-    &__title {
+    &_title {
         width: 380px;
         height: 324px;
         h1 {
@@ -26,7 +26,7 @@
         }
     }
     
-    &__button {
+    &_button {
         margin-top: 32px;
         width: 100px;
         height: 34px;
@@ -38,9 +38,32 @@
         border-radius: 80px;
         transition: background-color 0.3s ease;
         font-family: 'Nunito', sans-serif;
+        text-align: center;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
     }
     
-    &__button:hover {
+    &_button:hover {
         background-color: #FFE302;
     }
+
+    @media (max-width: 768px) {
+        .first_block_title {
+            padding: 89px 194px;
+        }
+    }
+
+    @media (max-width: 360px) {
+            height: 500px;
+
+            .first_block_title {
+                padding: 4px 0 70px 0; 
+                width: 328px;
+                height: 389px;
+            }
+    }
+
+    
 }

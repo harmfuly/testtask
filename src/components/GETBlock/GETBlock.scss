@@ -14,12 +14,13 @@
         font-size: 40px;
         margin-bottom: 40px;
         color: #000;
+        line-height: 40px;
     }
 
     &_card-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
+        gap: 29px;
         justify-content: center;
     }
 
@@ -85,6 +86,28 @@
 
         &:hover {
             background-color: #FFE302;
+        }
+    }
+
+    @media (max-width: 768px) {
+        &_card-container {
+            gap: 16px;
+            width: 704px;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 360px) {
+        &_container {
+            max-width: 328px;
+        }
+
+        &_title {
+            margin-bottom: 50px;
+        }
+
+        &_card-container {
+            gap: 20px;
         }
     }
 }

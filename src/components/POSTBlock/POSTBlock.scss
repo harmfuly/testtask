@@ -22,123 +22,9 @@
     gap: 50px;
     max-width: 380px;
     margin: 0 auto;
-  }
 
-  &_field {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  &_input {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid #d0cfcf;
-    border-radius: 4px;
-    font-size: 1rem;
-    background: transparent;
-    color: #000;
-    font-family: 'Nunito', sans-serif;
-    outline: none;
-    transition: border-color 0.3s;
-
-    &:focus {
-      border-color: #00bdd3;
-    }
-
-    &:focus + &_label,
-    &:not(:placeholder-shown) + &_label {
-      top: -10px;
-      font-size: 0.75rem;
-      color: #7e7e7e;
-    }
-  }
-
-  &_label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    font-size: 0.875rem;
-    color: #7e7e7e;
-    pointer-events: none;
-    transition: all 0.3s;
-
-    &.active {
-      top: -10px;
-      font-size: 0.75rem;
-      color: #007bff;
-    }
-  }
-
-  &_radio-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    gap: 16px;
-  }
-
-  &_radio {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-
-    input[type="radio"] {
-      appearance: none;
-      border: 2px solid #d0cfcf;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-
-      &:checked {
-        border-color: #00bdd3;
-      }
-
-      &:checked::before {
-        content: "";
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #00bdd3;
-      }
-
-      &:hover {
-        border-color: #00bdd3;
-      }
-    }
-  }
-
-  &_upload {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
-    height: 54px;
-
-    &-btn {
-      background: transparent;
-      border: 1px solid #000;
-      border-radius: 4px 0 0 4px;
-      padding: 16px 12px;
-      font-size: 1rem;
-      cursor: pointer;
-
-      &:hover {
-        background: #f0f0f0;
-      }
-    }
-
-    &-text {
-      font-size: 1rem;
-      color: #a0a0a0;
+    h1 {
+      font-size: 40px;
     }
   }
 
@@ -166,6 +52,23 @@
     .success-message_text {
       font-weight: 400;
       font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+   form h1 {
+    width: 704px;
+    font-size: 40px;
+   }
+  }
+
+  @media (max-width: 360px) {
+    &_container {
+      max-width: 328px;
+    }
+
+    h1 {
+      width: 320px;
     }
   }
 
