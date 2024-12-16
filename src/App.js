@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Header from './components/Header/Header';
 import './App.css';
-import FirstBlock from './components/FirstBlock/FirstBlock';
-import GETBlock from './components/GETBlock/GETBlock';
-import { POSTBlock } from './components/POSTBlock/POSTBlock';
+
+const FirstBlock = React.lazy(() => import('./components/FirstBlock/FirstBlock'));
+const GETBlock = React.lazy(() => import('./components/GETBlock/GETBlock'));
+const POSTBlock = React.lazy(() => import('./components/POSTBlock/POSTBlock'));
 
 const App = () => {
   return (
     <div className="App">
-        <Header />
+      <Header />
       <div className="container">
-        <FirstBlock />
-        <div id='users'>
-          <GETBlock />
+        <Suspense fallback={<div>Loading FirstBlock...</div>}>
+          <FirstBlock />
+        </Suspense>
+        <div id="users">
+          <Suspense fallback={<div>Loading GETBlock...</div>}>
+            <GETBlock />
+          </Suspense>
         </div>
-        <div id='signup'>
-          <POSTBlock />
+        <div id="signup">
+          <Suspense fallback={<div>Loading POSTBlock...</div>}>
+            <POSTBlock />
+          </Suspense>
         </div>
       </div>
     </div>

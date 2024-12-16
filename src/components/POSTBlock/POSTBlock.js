@@ -7,7 +7,7 @@ import { Button } from './Button';
 import { validateForm } from '../../utils/validation';
 import successImage from '../../assets/success-image.svg';
 
-export function POSTBlock() {
+export default function POSTBlock() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
