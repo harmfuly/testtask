@@ -7,7 +7,7 @@ import { Button } from './Button';
 import { validateForm } from '../../utils/validation';
 import successImage from '../../assets/success-image.svg';
 
-export default function POSTBlock() {
+export default function POSTBlock({ onUserAdded }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -116,6 +116,7 @@ export default function POSTBlock() {
           });
           setErrors({});
           setTouched({});
+          onUserAdded();
         } else {
           setMessage(data.message || 'Registration failed.');
         }

@@ -1,38 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from "react";
 import './GETBlock.scss';
 
-const GETBlock = () => {
+const GETBlock = forwardRef((props, ref) => {
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`);
-                const data = await response.json();
-                const sortedUsers = data.users.sort((a, b) => b.registration_timestamp - a.registration_timestamp);
-
-                if (page === 1) {
-                    setUsers(sortedUsers);
-                } else {
-                    setUsers((prev) => [...prev, ...sortedUsers]);
-                }
-
-                console.log("Current page:", data.page, "Total pages:", data.total_pages);
-
-                setIsLastPage(data.page >= data.total_pages);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            } finally {
-                setLoading(false);
+    const fetchUsers = async (reset = false) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`);
+            const data = await response.json();
+            const sortedUsers = data.users.sort((a, b) => b.registration_timestamp - a.registration_timestamp);
+    
+            if (reset) {
+                setUsers(sortedUsers);
+            } else {
+                setUsers((prev) => [...prev, ...sortedUsers]);
             }
-        };
+    
+            setIsLastPage(data.page >= data.total_pages);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchUsers();
     }, [page]);
+
+    useImperativeHandle(ref, () => ({
+        refreshUsers: () => fetchUsers(true),
+    }));
 
     const handleShowMore = () => {
         if (!isLastPage) {
@@ -69,6 +71,6 @@ const GETBlock = () => {
             </div>
         </div>
     );
-};
+});
 
 export default GETBlock;
