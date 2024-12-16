@@ -65,6 +65,35 @@
             margin-bottom: 1px;
             overflow-wrap: anywhere;
         }
+
+        &_email {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+
+            .tooltip {
+                visibility: hidden;
+                background-color: #000;
+                color: #fff;
+                text-align: center;
+                border-radius: 4px;
+                padding: 5px 10px;
+                position: absolute;
+                top: 100%;
+                left: 90%;
+                transform: translateX(-50%);
+                white-space: nowrap;
+                font-size: 14px;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity 0.3s;
+              }
+            
+              &:hover .tooltip {
+                visibility: visible;
+                opacity: 1;
+              }
+        }
     }
 
     &_button {

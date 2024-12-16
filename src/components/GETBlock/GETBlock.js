@@ -50,7 +50,9 @@ const GETBlock = () => {
                             <img src={person.photo} alt={person.name} className="GETBlock_card_image" />
                             <h6 className="GETBlock_card_title">{person.name}</h6>
                             <p className="GETBlock_card_position">{person.position}</p>
-                            <p className="GETBlock_card_email">{person.email}</p>
+                            <p className="GETBlock_card_email">{person.email}
+                                <span className="tooltip">{person.email}</span>
+                            </p>
                             <p className="GETBlock_card_phone">{person.phone}</p>
                         </div>
                     ))}
